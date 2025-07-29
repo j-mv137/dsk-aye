@@ -1,0 +1,193 @@
+@import url('../../../assets/base.css');
+
+.secondContainer {
+  display: flex;
+
+  box-shadow: 0 0 3px var(--light-gray);
+
+  width: 45%;
+  height: 100%;
+}
+
+.formContainer {
+  display: flex;
+
+  padding: 2rem 3rem;
+
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  align-items: left;
+
+  gap: 2rem;
+
+  width: 100%;
+}
+
+label {
+  font-size: small;
+  letter-spacing: 0.5ch;
+  font-weight: lighter;
+
+  cursor: inherit;
+}
+
+.radioInputs {
+  display: flex;
+
+  gap: 4rem;
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+
+  align-items: center;
+  justify-content: center;
+}
+
+input[type='radio'] {
+  margin: 0;
+  width: 1rem; /* size-4 = 16px */
+  height: 1rem;
+  outline: none;
+
+  accent-color: black;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.radioContainer {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.multInputsContainer {
+  display: flex;
+
+  gap: 2rem;
+
+  align-items: center;
+
+  width: 100%;
+}
+
+.inputContainer {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: left;
+  justify-content: center;
+
+  gap: 0.5rem;
+
+  width: 100%;
+}
+
+.inputForm {
+  width: 90%;
+}
+
+.inputFormSm {
+  width: 80%;
+}
+
+.textarea {
+  padding: 0.5rem 0.75rem;
+
+  border: 1px solid var(--light-gray);
+  border-radius: 0.5rem;
+
+  font-family: 'DM Sans';
+  font-weight: lighter;
+
+  outline: none;
+
+  width: 90%;
+
+  resize: none;
+  height: 5rem;
+  max-height: 5rem;
+}
+
+.dropdownButton {
+  height: 60% !important;
+  padding: 0.5rem 0.75rem;
+  width: 100% !important;
+
+  cursor: pointer;
+}
+
+.dropdownContainer {
+  z-index: 1;
+
+  position: absolute;
+  top: 2.5rem;
+
+  background-color: white;
+
+  box-shadow: 0 0 5px var(--light-gray);
+  border-radius: 0.5rem;
+
+  height: 3.65rem;
+  width: 8rem;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: left;
+  align-items: start;
+
+  cursor: auto;
+}
+
+.dropdownTag {
+  display: flex;
+  gap: 0.25rem;
+
+  font-family: 'DM Sans';
+  font-size: medium;
+  text-align: left;
+
+  background-color: transparent;
+  border: 0;
+
+  height: 1.825rem;
+
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+
+  box-shadow: 0 0 3px var(--light-gray);
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+}
+
+.dropdownTag:hover {
+  background-color: var(--light-gray-2);
+  transition: background-color 0.1s ease-in;
+}
+
+.dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+  height: 100%;
+}

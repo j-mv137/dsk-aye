@@ -1,0 +1,12 @@
+:root {
+  --background: oklch(1 0 0);
+  --white: #fff;
+  --black: #000;
+  --gray: #4a5565;
+  --light-gray: #cccbcb;
+  --light-gray-2: #cccbcb25;
+
+  --brown: oklch(0.421 0.095 57.708);
+
+  --yellow: oklch(94.5% 0.129 101.54);
+}

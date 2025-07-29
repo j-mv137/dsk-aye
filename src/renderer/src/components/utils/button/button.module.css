@@ -1,0 +1,37 @@
+@import url('../../../assets/base.css');
+
+.button {
+  display: inline-flex; /* inline-flex */
+
+  align-items: center; /* items-center */
+  justify-content: center; /* justify-center */
+
+  gap: 0.5rem; /* gap-2 */
+
+  border-radius: 0.375rem; /* rounded-md */
+  box-shadow: 0 1px 3px var(--light-gray); /* shadow-xs */
+
+  width: 25%;
+  height: 2.25rem;
+
+  font-family: 'DM Sans';
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500;
+
+  outline: none; /* outline-none */
+
+  background-color: var(--yellow); /* bg-primary */
+  color: var(--black); /* text-primary-foreground */
+
+  transition: opacity 0.175s ease;
+  cursor: pointer;
+}
+
+.button:focus-visible {
+  border-color: var(--ring); /* focus-visible:border-ring */
+  box-shadow: 0 0 0 3px var(--ring) 50; /* focus-visible:ring-ring/50 */
+}
+
+.button:hover {
+  opacity: 0.8;
+}

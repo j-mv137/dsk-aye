@@ -1,0 +1,13 @@
+@import url('../../../assets/base.css');
+
+.searchInput {
+  border: 1px solid var(--light-gray);
+  border-radius: 0.5rem;
+
+  padding: 0.5rem 0.75rem;
+
+  font-family: 'DM Sans';
+  font-weight: lighter;
+
+  outline: none;
+}

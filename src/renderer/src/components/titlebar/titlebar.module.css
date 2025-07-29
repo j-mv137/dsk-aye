@@ -1,0 +1,19 @@
+@import url('../../assets/base.css');
+
+.mainContainer {
+  display: flex;
+
+  flex-shrink: 0;
+
+  width: 100%;
+  height: 2.25rem;
+
+  background-color: var(--yellow);
+
+  align-items: center;
+  justify-content: right;
+
+  box-sizing: border-box;
+
+  app-region: drag;
+}
