@@ -1,5 +1,6 @@
 import { ElectronAPI } from "@electron-toolkit/preload";
 import { RectAttr } from "../main/bridge/Coms/roomsComs";
+import { Order } from "@renderer/components/orders/ordersForm/ordersForm";
 
 declare global {
   interface Window {
@@ -12,6 +13,8 @@ declare global {
         pos: number[]
       ) => Promise<RectAttr[]>;
       getProdsBySearch: (query: string) => Promise<string>;
+      addOrder: (order: Order) => Promise<string>;
+      getOrdersByDate: (init, final: string) => Promise<string>;
     };
   }
 }

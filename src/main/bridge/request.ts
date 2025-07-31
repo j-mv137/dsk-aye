@@ -1,6 +1,7 @@
 import { spawn as spwn } from "child_process";
 
-type Methods = "getProdsBySearch" | "addOrder";
+type Methods = "getProdsBySearch" | "addOrder" | "getOrdersByDate";
+type Directions = "Orders" | "Products";
 
 export interface Product {
   id: number;
@@ -22,6 +23,9 @@ function spawn(cmd: string, args: ReadonlyArray<string>): Promise<string> {
     const error: string[] = [];
     const stdout: string[] = [];
     cp.stdout.on("data", (data) => {
+      console.log(data);
+      console.log(JSON.parse(data));
+
       stdout.push(data.toString());
     });
 
@@ -37,14 +41,20 @@ function spawn(cmd: string, args: ReadonlyArray<string>): Promise<string> {
 }
 
 export async function requestApi(
+  direction: Directions,
   method: Methods,
   args: (string | number | boolean)[]
-): Promise<string | void> {
-  const argsJson = JSON.stringify({ method: method, args: args });
+): Promise<string> {
+  const argsJson = JSON.stringify({
+    direction: direction,
+    method: method,
+    args: args,
+  });
+  console.log(argsJson);
   try {
     return await spawn("java", [
       "-cp",
-      "C:\\Users\\Jacobo Morales\\Desktop\\AYER\\dsk2\\db__\\Main\\out\\production\\Main;C:\\Users\\Jacobo Morales\\Downloads\\postgresql-42.7.7.jar;C:\\Users\\Jacobo Morales\\Downloads\\gson-2.13.1.jar",
+      "/home/jacobo/Desktop/ayer-2/baye/Main/src/out/production/Main:/home/jacobo/Desktop/ayer-2/baye/Main/out/lib/postgresql-42.7.7.jar:/home/jacobo/Desktop/ayer-2/baye/Main/out/lib/gson-2.13.1.jar",
       "Main",
       argsJson,
     ]);

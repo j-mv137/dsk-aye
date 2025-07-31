@@ -1,33 +1,33 @@
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef } from "@tanstack/react-table";
 
-export type Order = {
-  id: number
-  type: 'taller' | 'revision'
-  name: string
-  address: string
-  phone: string
-  description: string
-}
+export type OrderTable = {
+  id: number;
+  type: "taller" | "revisión";
+  name: string;
+  date: string;
+  phone: string;
+  description: string;
+};
 
-export const columns: ColumnDef<Order>[] = [
+export const columns: ColumnDef<OrderTable>[] = [
   {
-    accessorKey: 'id',
-    header: 'No. de orden'
+    accessorKey: "id",
+    header: "No. de orden",
   },
   {
-    accessorKey: 'status',
-    header: 'Estatus'
+    accessorKey: "date",
+    header: "Fecha",
   },
   {
-    accessorKey: 'type',
-    header: 'Tipo'
+    accessorKey: "status",
+    header: "Estatus",
   },
   {
-    accessorKey: 'name',
-    header: 'Nombre del Cliente'
+    accessorKey: "type",
+    header: "Tipo",
   },
   {
-    accessorKey: 'address',
-    header: 'Domicilio'
-  }
-]
+    accessorKey: "name",
+    header: "Nombre del Cliente",
+  },
+];

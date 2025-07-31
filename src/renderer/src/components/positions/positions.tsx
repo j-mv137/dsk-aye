@@ -71,7 +71,6 @@ export function Position(): React.JSX.Element {
       .then()
       .then((data) => {
         setProds(JSON.parse(data));
-        console.log(data);
       });
   }
 

@@ -3,7 +3,7 @@ import { createHashRouter } from "react-router";
 import App from "./App";
 import { Position } from "./components/positions/positions";
 // import { OrdersLayout } from "./components/orders/ordersLayout";
-import { NewOrdersLayout } from "./components/new-orders/newOrdersLayout";
+import { OrdersLayout } from "./components/orders/ordersLayout";
 
 export const router = createHashRouter([
   {
@@ -11,7 +11,7 @@ export const router = createHashRouter([
     Component: App,
     children: [
       { path: "/", Component: Position },
-      { path: "orders", Component: NewOrdersLayout },
+      { path: "orders", Component: OrdersLayout },
     ],
   },
 ]);

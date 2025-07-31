@@ -3,23 +3,28 @@ import styles from "./ordersForm.module.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@renderer/components/utils/button/button";
 import { CalendarDays } from "lucide-react";
+import { useState } from "react";
 
-export type OrderForm = {
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
+import { dateFormatter } from "../orders";
+
+export type Order = {
   id: number;
   date: string;
-  noteId: string; // ID of the receipt associated with the order
   status: "pendiente" | "terminado";
   type: "taller" | "revisión";
   name: string;
   description: string;
+  noteId: string;
   address: string;
   phoneNum: string;
 };
 
 export function OrdersForm(): React.JSX.Element {
-  const { handleSubmit, register, watch } = useForm<OrderForm>({
+  const { handleSubmit, register, watch, setValue } = useForm<Order>({
     defaultValues: {
-      date: "",
+      date: dateFormatter.format(new Date()),
       noteId: "",
       status: "pendiente",
       type: "taller",
@@ -30,11 +35,23 @@ export function OrdersForm(): React.JSX.Element {
     },
   });
 
+  const [toggleCal, setToggleCal] = useState<boolean>(false);
+  const [date, setDate] = useState<Date>();
+
   // display or not the address input
   const typeWatch = watch("type");
 
-  const onSubmit: SubmitHandler<OrderForm> = (data): void => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Order> = (data: Order): void => {
+    window.electronAPI.addOrder(data).then((v) => {
+      console.log(v);
+
+      // Check if stdout is number and if its value if 0
+      // this to know if the process succed
+      // TODO: add popout (bread or some like that)
+      if (!isNaN(Number(v)) && Number(v) === 0) {
+        return;
+      }
+    });
   };
 
   return (
@@ -50,9 +67,28 @@ export function OrdersForm(): React.JSX.Element {
               {...register("id", { required: true })}
             />
           </div>
-          <Button className={styles.smButton}>
-            <CalendarDays />
-          </Button>
+          <div className={styles.calendarNBtnCont}>
+            <span>{date?.toLocaleDateString("es-MX")}</span>
+            <Button
+              type="button"
+              className={styles.lgBtn}
+              onClick={() => setToggleCal((prev) => !prev)}
+            >
+              <CalendarDays />
+            </Button>
+            {toggleCal && (
+              <div className={styles.calendarCont}>
+                <DayPicker
+                  mode="single"
+                  selected={date}
+                  onSelect={(d) => {
+                    setDate(d);
+                    setValue("date", dateFormatter.format(d));
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Second row: status and type */}
@@ -104,7 +140,11 @@ export function OrdersForm(): React.JSX.Element {
         <div className={styles.formRow}>
           <div className={styles.inputLabelCont}>
             <label htmlFor="name">Nombre*</label>
-            <Input type="text" {...register("name", { required: true })} />
+            <Input
+              className={styles.lgInput}
+              type="text"
+              {...register("name", { required: true })}
+            />
           </div>
         </div>
 
@@ -113,7 +153,11 @@ export function OrdersForm(): React.JSX.Element {
           <div className={styles.formRow}>
             <div className={styles.inputLabelCont}>
               <label htmlFor="address">Dirección*</label>
-              <Input type="text" {...register("address", { required: true })} />
+              <Input
+                className={styles.lgInput}
+                type="text"
+                {...register("address", { required: true })}
+              />
             </div>
           </div>
         )}
@@ -130,7 +174,7 @@ export function OrdersForm(): React.JSX.Element {
           </div>
 
           <div className={styles.inputLabelCont}>
-            <label htmlFor="note">Nota asociada</label>
+            <label htmlFor="noteId">Nota asociada</label>
             <Input
               className={styles.smInput}
               type="text"
@@ -148,6 +192,12 @@ export function OrdersForm(): React.JSX.Element {
               {...register("description")}
             />
           </div>
+        </div>
+
+        <div className={styles.formRow}>
+          <Button className={styles.smBtn} type="submit">
+            Enviar
+          </Button>
         </div>
       </form>
     </div>

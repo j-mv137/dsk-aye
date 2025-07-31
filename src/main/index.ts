@@ -2,6 +2,11 @@ import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
 import { join } from "path";
 import { is, optimizer } from "@electron-toolkit/utils";
 import { handleReadPos, handleSearchProds } from "./bridge/coms/roomsComs";
+import {
+  handleAddOrder,
+  handleGetOrdersByDate,
+  Order,
+} from "./bridge/coms/ordersComs";
 
 function createWindow(): BrowserWindow {
   // Create the browser window.
@@ -49,14 +54,26 @@ app.whenReady().then(() => {
   });
 
   createWindow();
-
-  ipcMain.handle(
-    "get-prods-by-search",
-    (_e: IpcMainInvokeEvent, query: string) => {
-      return handleSearchProds(query);
-    }
-  );
 });
+
+// Listeners
+ipcMain.handle(
+  "get-prods-by-search",
+  (_e: IpcMainInvokeEvent, query: string) => {
+    return handleSearchProds(query);
+  }
+);
+
+ipcMain.handle("add-order", (_e: IpcMainInvokeEvent, order: Order) => {
+  return handleAddOrder(order);
+});
+
+ipcMain.handle(
+  "get-orders-by-date",
+  (_e: IpcMainInvokeEvent, init, final: string) => {
+    return handleGetOrdersByDate(init, final);
+  }
+);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -66,6 +83,3 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

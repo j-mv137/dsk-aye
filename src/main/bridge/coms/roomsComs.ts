@@ -53,5 +53,5 @@ export function handleReadPos(
 }
 
 export function handleSearchProds(query: string): Promise<string | void> {
-  return requestApi("getProdsBySearch", [query]);
+  return requestApi("Products", "getProdsBySearch", [query]);
 }
