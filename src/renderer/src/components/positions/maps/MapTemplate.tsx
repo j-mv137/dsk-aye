@@ -2,7 +2,6 @@ import { Stage, Layer, Image, Rect } from "react-konva";
 
 import { useEffect, useState } from "react";
 import { MapTemplateProps } from "./map";
-
 import { Product } from "../positions";
 
 type RectAttr = { key: string; w: number; h: number; x: number; y: number };
@@ -13,6 +12,8 @@ export function MapTemplate({
   positionsFile,
   maxW,
   maxH,
+  setProds,
+  setSelected,
 }: MapTemplateProps): React.JSX.Element {
   const pos = imgAttr.position;
   const image = imgAttr.image;
@@ -20,6 +21,9 @@ export function MapTemplate({
   const [positions, setPositions] = useState<RectAttr[]>([]);
 
   function getProducts(key: string): void {
+    setSelected(true);
+
+    console.log(key);
     let room = "";
     if (positionsFile.toLowerCase().includes("yellow")) {
       room = "yellow";
@@ -29,13 +33,10 @@ export function MapTemplate({
       room = "front";
     } else return;
 
-    let resB = "";
-
     window.electronAPI.getProdsByRack(key, room).then((res) => {
-      resB.concat(res);
+      const prods = JSON.parse(res) as Product[];
+      setProds(prods);
     });
-
-    const prods = JSON.parse(resB) as Product[];
   }
 
   useEffect(() => {
@@ -52,11 +53,7 @@ export function MapTemplate({
       width={containerRef.current?.clientWidth}
       height={containerRef.current?.clientHeight}
     >
-      <Layer
-        onMouseDown={(e) => {
-          console.log(e.target.getRelativePointerPosition());
-        }}
-      >
+      <Layer>
         <Image
           onClick={() => {
             console.log(image.width, image.height);

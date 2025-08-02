@@ -4,8 +4,9 @@ type Methods =
   | "getProdsBySearch"
   | "addOrder"
   | "getOrdersByDate"
-  | "getProdsByRack";
-type Directions = "Orders" | "Products" | "ProductsPositions";
+  | "getProdsByRack"
+  | "addPosToProd";
+type Directions = "Orders" | "Products" | "Positions";
 
 export type Product = {
   id: number;
@@ -55,7 +56,7 @@ export async function requestApi(
   try {
     return await spawn("java", [
       "-cp",
-      "/home/jacobo/Desktop/ayer-2/baye/Main/src/out/production/Main:/home/jacobo/Desktop/ayer-2/baye/Main/out/lib/postgresql-42.7.7.jar:/home/jacobo/Desktop/ayer-2/baye/Main/out/lib/gson-2.13.1.jar",
+      "/home/jacobo/Desktop/ayer/baye/Main/src/out/production/Main:/home/jacobo/Desktop/ayer/baye/Main/out/lib/postgresql-42.7.7.jar:/home/jacobo/Desktop/ayer/baye/Main/out/lib/gson-2.13.1.jar",
       "Main",
       argsJson,
     ]);

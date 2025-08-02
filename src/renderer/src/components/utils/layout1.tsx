@@ -2,8 +2,11 @@ import styles from "./layout1.module.css";
 
 export function ContainerDown({
   children,
-}: {
-  children: React.JSX.Element;
-}): React.JSX.Element {
-  return <div className={styles.mainContainer}>{children}</div>;
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>): React.JSX.Element {
+  return (
+    <div {...props} className={styles.mainContainer}>
+      {children}
+    </div>
+  );
 }

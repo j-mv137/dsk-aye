@@ -7,7 +7,7 @@ import { OrdersTable } from "./ordersTable/ordersTable";
 
 async function defaulltOrders(): Promise<[OrderTable[], Order[]]> {
   // TEMPORAL:
-  // By default the 10th most recent orders of last month will be display
+  // By default the 10 most recent orders of last month will be display
 
   let pastMonthDate: string;
 

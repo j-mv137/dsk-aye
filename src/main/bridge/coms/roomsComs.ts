@@ -70,7 +70,11 @@ export function handleReadPos(
 }
 
 export function handleGetProdsByRack(key, room: string): Promise<string> {
-  return requestApi("ProductsPositions", "getProdsByRack", [key, room]);
+  return requestApi("Positions", "getProdsByRack", [key, room]);
+}
+
+export function handleAddPosToProd(prodId, posId: number): Promise<string> {
+  return requestApi("Positions", "addPosToProd", [prodId, posId]);
 }
 
 // elit software eng.

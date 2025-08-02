@@ -4,6 +4,8 @@ import { MapTemplate } from "../MapTemplate";
 export function BackMap({
   containerRef,
   imgAttr,
+  setProds,
+  setSelected,
 }: MapProps): React.JSX.Element {
   return (
     <MapTemplate
@@ -12,6 +14,8 @@ export function BackMap({
       positionsFile="positionsBack.json"
       maxW={1078}
       maxH={868}
+      setProds={setProds}
+      setSelected={setSelected}
     />
   );
 }

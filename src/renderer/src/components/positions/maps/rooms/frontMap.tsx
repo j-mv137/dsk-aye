@@ -4,6 +4,8 @@ import { MapTemplate } from "../MapTemplate";
 export const FrontMap = ({
   containerRef,
   imgAttr,
+  setProds,
+  setSelected,
 }: MapProps): React.JSX.Element => {
   return (
     <MapTemplate
@@ -12,6 +14,8 @@ export const FrontMap = ({
       positionsFile="positionsFront.json"
       maxW={1068}
       maxH={654}
+      setProds={setProds}
+      setSelected={setSelected}
     />
   );
 };
