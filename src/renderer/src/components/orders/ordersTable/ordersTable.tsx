@@ -15,16 +15,20 @@ import {
 
 import styles from "./ordersTable.module.css";
 import { useState } from "react";
+import { OrderTable } from "./orders";
+import { Order } from "../ordersForm/ordersForm";
 
 interface OrdersTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  completeData: Order[];
 }
 
-export function OrdersTable<TData, TValue>({
+export function OrdersTable<TValue>({
   columns,
   data,
-}: OrdersTableProps<TData, TValue>): React.JSX.Element {
+  completeData,
+}: OrdersTableProps<OrderTable, TValue>): React.JSX.Element {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
 
   const table = useReactTable({
@@ -81,22 +85,27 @@ export function OrdersTable<TData, TValue>({
                 <div className={styles.extendedRowContainer}>
                   <div className={styles.headerContainer}>
                     <span className={styles.smallTag}>
-                      No. de orden: <b>2013</b>
+                      No. de orden: <b>{completeData[Number(row.id)].id}</b>
                     </span>
                     <span className={styles.largeTag}>
-                      Nombre del Cliente: <b>Jacobon Morales</b>
+                      Nombre del Cliente:{" "}
+                      <b>{completeData[Number(row.id)].name}</b>
                     </span>
                     <span className={styles.smallTag}>
-                      Estatus: <b>Pendiente</b>
+                      Estatus: <b>{completeData[Number(row.id)].status}</b>
                     </span>
                     <span className={styles.smallTag}>
-                      Tipo: <b>Taller</b>
+                      Tipo: <b>{completeData[Number(row.id)].type}</b>
                     </span>
+                    {completeData[Number(row.id)].address && (
+                      <span className={styles.smallTag}>
+                        Dirección: <b>{completeData[Number(row.id)].address}</b>
+                      </span>
+                    )}
                   </div>
                   <div>
-                    Descripción: tgajsdlksdkvdksvkasmvklasndklnvajs
-                    nvjnadfkjlbnladvskjbnvkjdsa vcjanskcbdjcdna skjncjsbndjbn
-                    acsdjnckjasnjd snakjcnkjadsnkfkamlkdvmdskalkdanckdmlkc
+                    Descripción:{" "}
+                    <p>{completeData[Number(row.id)].description}</p>
                   </div>
                 </div>
               </TableCell>

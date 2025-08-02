@@ -23,13 +23,16 @@
   justify-content: baseline;
   align-items: center;
 
-  font-family: 'DM Sans';
+  font-family: "DM Sans";
 }
 
 .smallTag {
   display: flex;
 
-  width: 25%;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 20%;
 
   gap: 0.25rem;
 }

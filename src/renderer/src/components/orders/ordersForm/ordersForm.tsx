@@ -40,11 +40,10 @@ export function OrdersForm(): React.JSX.Element {
 
   // display or not the address input
   const typeWatch = watch("type");
+  const dateWatch = watch("date");
 
   const onSubmit: SubmitHandler<Order> = (data: Order): void => {
     window.electronAPI.addOrder(data).then((v) => {
-      console.log(v);
-
       // Check if stdout is number and if its value if 0
       // this to know if the process succed
       // TODO: add popout (bread or some like that)
@@ -68,7 +67,7 @@ export function OrdersForm(): React.JSX.Element {
             />
           </div>
           <div className={styles.calendarNBtnCont}>
-            <span>{date?.toLocaleDateString("es-MX")}</span>
+            <span>{dateWatch}</span>
             <Button
               type="button"
               className={styles.lgBtn}

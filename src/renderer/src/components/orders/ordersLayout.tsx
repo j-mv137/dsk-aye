@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { ContainerDown } from "../utils/layout1";
 import { dateFormatter, handleGetOrdersByDate } from "./orders";
-import { OrdersForm } from "./ordersForm/ordersForm";
+import { Order, OrdersForm } from "./ordersForm/ordersForm";
 import { columns, OrderTable } from "./ordersTable/orders";
 import { OrdersTable } from "./ordersTable/ordersTable";
 
-async function defaulltOrders(): Promise<OrderTable[]> {
+async function defaulltOrders(): Promise<[OrderTable[], Order[]]> {
   // TEMPORAL:
   // By default the 10th most recent orders of last month will be display
 
@@ -25,14 +25,18 @@ async function defaulltOrders(): Promise<OrderTable[]> {
     pastMonthDate = dateFormatter.format(today.setFullYear(pastYear));
   }
 
+  // No real design intent, pure stupidity but don't care right now
+  // TODO: not be stupid
   return await handleGetOrdersByDate(pastMonthDate, todayEndOfDay);
 }
 
 export function OrdersLayout(): React.JSX.Element {
-  const [orders, setOrders] = useState<OrderTable[]>([]);
+  const [ordersTable, setOrdersTable] = useState<OrderTable[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    defaulltOrders().then((orders) => {
+    defaulltOrders().then(([ordersTable, orders]) => {
+      setOrdersTable(ordersTable);
       setOrders(orders);
     });
   }, []);
@@ -41,7 +45,11 @@ export function OrdersLayout(): React.JSX.Element {
     <ContainerDown>
       <>
         <OrdersForm />
-        <OrdersTable columns={columns} data={orders} />
+        <OrdersTable
+          columns={columns}
+          data={ordersTable}
+          completeData={orders}
+        />
       </>
     </ContainerDown>
   );

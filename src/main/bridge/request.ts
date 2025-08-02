@@ -1,9 +1,13 @@
 import { spawn as spwn } from "child_process";
 
-type Methods = "getProdsBySearch" | "addOrder" | "getOrdersByDate";
-type Directions = "Orders" | "Products";
+type Methods =
+  | "getProdsBySearch"
+  | "addOrder"
+  | "getOrdersByDate"
+  | "getProdsByRack";
+type Directions = "Orders" | "Products" | "ProductsPositions";
 
-export interface Product {
+export type Product = {
   id: number;
   code: string;
   secondCode: string;
@@ -15,7 +19,7 @@ export interface Product {
   currency: string;
   artNum: number;
   minQuantity: number;
-}
+};
 
 function spawn(cmd: string, args: ReadonlyArray<string>): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -23,9 +27,6 @@ function spawn(cmd: string, args: ReadonlyArray<string>): Promise<string> {
     const error: string[] = [];
     const stdout: string[] = [];
     cp.stdout.on("data", (data) => {
-      console.log(data);
-      console.log(JSON.parse(data));
-
       stdout.push(data.toString());
     });
 

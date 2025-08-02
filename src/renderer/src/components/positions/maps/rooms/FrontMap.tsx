@@ -1,5 +1,5 @@
-import { MapProps } from "./map";
-import { MapTemplate } from "./MapTemplate";
+import { MapProps } from "../map";
+import { MapTemplate } from "../MapTemplate";
 
 export const FrontMap = ({
   containerRef,
@@ -10,6 +10,8 @@ export const FrontMap = ({
       containerRef={containerRef}
       imgAttr={imgAttr}
       positionsFile="positionsFront.json"
+      maxW={1068}
+      maxH={654}
     />
   );
 };

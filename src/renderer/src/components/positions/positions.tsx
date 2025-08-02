@@ -1,5 +1,5 @@
 import styles from "./positions.module.css";
-import { useMemo, useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   FileQuestionMark,
@@ -8,35 +8,59 @@ import {
   SearchIcon,
 } from "lucide-react";
 
-import { FrontMap } from "./maps/FrontMap";
-import frontImg from "../../assets/images/Rooms/front2.png";
+import { FrontMap } from "./maps/rooms/FrontMap";
+
+import frontImg from "@renderer/assets/images/Rooms/front.png";
+import backImg from "@renderer/assets/images/Rooms/back.png";
+import yellowImg from "@renderer/assets/images/Rooms/yellow.png";
+
 import { ContainerDown } from "../utils/layout1";
 import { Input } from "../utils/input/input";
 import { MapProps } from "./maps/map";
+import { BackMap } from "./maps/rooms/BackMap";
+import { YellowMap } from "./maps/rooms/YellowMap";
+
+const MAP_LAYOUT: Map[] = [
+  {
+    map: FrontMap,
+    img: frontImg,
+    right: true,
+    left: false,
+    to: 1,
+    from: 0,
+  },
+  {
+    map: BackMap,
+    img: backImg,
+    right: true,
+    left: true,
+    to: 2,
+    from: 0,
+  },
+  {
+    map: YellowMap,
+    img: yellowImg,
+    right: false,
+    left: true,
+    to: 2,
+    from: 1,
+  },
+];
 
 type Map = {
   map: React.FC<MapProps>;
+  img: string;
   right: boolean;
   left: boolean;
   to: number;
   from: number;
 };
 
-const MAP_LAYOUT: Map[] = [
-  {
-    map: FrontMap,
-    right: true,
-    left: false,
-    to: 1,
-    from: 0,
-  },
-];
-
 type ImgAttr = { image: HTMLImageElement; position: number[] };
 
-interface Product {
+export type Product = {
   id: number;
-  code: string;
+  mainCode: string;
   secondCode: string;
   description: string;
   department: string;
@@ -46,8 +70,9 @@ interface Product {
   currency: string;
   artNum: number;
   minQuantity: number;
-}
+};
 
+// random func.
 function capitalizeFirst(str: string): string {
   return str[0].toUpperCase() + str.slice(1, str.length).toLowerCase();
 }
@@ -57,7 +82,7 @@ export function Position(): React.JSX.Element {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const [text, setText] = useState("");
-  const [prods, setProds] = useState<Product[] | null>(null);
+  const [prods, setProds] = useState<Product[]>([]);
   const [imgAttr, setImgAttr] = useState<ImgAttr>({
     image: new window.Image(),
     position: [0, 0],
@@ -74,6 +99,7 @@ export function Position(): React.JSX.Element {
       });
   }
 
+  // So the input element doesn't refresh every time the map gets adjusted
   const input = useMemo(() => {
     return (
       <Input
@@ -87,43 +113,39 @@ export function Position(): React.JSX.Element {
   }, [text]);
 
   useEffect(() => {
-    if (!mapContainerRef.current) {
-      return;
-    }
-
-    const img = new window.Image();
-
-    const w = mapContainerRef.current.clientWidth;
-    const h = mapContainerRef.current.clientHeight;
-
-    function handleLoad(event: Event): void {
-      const image = event.currentTarget;
-
-      if (!(image instanceof HTMLImageElement)) {
+    const mapContainerObs = new ResizeObserver((entries) => {
+      if (entries.length > 1) return;
+      if (!mapContainerRef.current) {
         return;
       }
-      const naturalWidth = image.width;
-      const naturalHeight = image.height;
-
-      const vratio = h / naturalHeight;
-      const hratio = w / naturalWidth;
-
-      const ratio = Math.min(vratio, hratio);
-
-      const width = naturalWidth * ratio;
-      const height = naturalHeight * ratio;
-
-      const xOffset = (w - width) / 2;
-      const yOffset = (h - height) / 2;
-      image.width = width;
-      image.height = height;
-
-      setImgAttr({ image: image, position: [xOffset, yOffset] });
-    }
-    img.addEventListener("load", handleLoad);
-    img.src = frontImg;
-    return () => img.removeEventListener("load", handleLoad);
-  }, [mapContainerRef, imgAttr]);
+      const img = new window.Image();
+      const w = mapContainerRef.current.clientWidth;
+      const h = mapContainerRef.current.clientHeight;
+      function handleLoad(event: Event): void {
+        const image = event.currentTarget;
+        if (!(image instanceof HTMLImageElement)) {
+          return;
+        }
+        const naturalWidth = image.width;
+        const naturalHeight = image.height;
+        const vratio = h / naturalHeight;
+        const hratio = w / naturalWidth;
+        const ratio = Math.min(vratio, hratio);
+        const width = naturalWidth * ratio;
+        const height = naturalHeight * ratio;
+        const xOffset = (w - width) / 2;
+        const yOffset = (h - height) / 2;
+        image.width = width;
+        image.height = height;
+        setImgAttr({ image: image, position: [xOffset, yOffset] });
+      }
+      img.addEventListener("load", handleLoad);
+      img.src = MapObj.img;
+      return () => img.removeEventListener("load", handleLoad);
+    });
+    if (mapContainerRef.current)
+      mapContainerObs.observe(mapContainerRef.current);
+  }, [MapObj.img, mapContainerRef]);
 
   return (
     <ContainerDown>
@@ -145,10 +167,10 @@ export function Position(): React.JSX.Element {
               </div>
             )}
             {prods?.map((prod) => (
-              <div key={prod.code} className={styles.item}>
+              <div key={prod.mainCode} className={styles.item}>
                 <div className={styles.itemContent}>
                   <div className={styles.codes}>
-                    <span>{prod.code}</span>
+                    <span>{prod.mainCode}</span>
                     <span>{prod.secondCode}</span>
                   </div>
                   <span>{capitalizeFirst(prod.description)}</span>

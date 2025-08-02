@@ -18,14 +18,14 @@ const dateSmFormatter = new Intl.DateTimeFormat("es-MX", {
 export async function handleGetOrdersByDate(
   init,
   final: string
-): Promise<OrderTable[]> {
+): Promise<[OrderTable[], Order[]]> {
   const ordersJsonStr = await window.electronAPI.getOrdersByDate(init, final);
   const ordersJson = <Order[]>JSON.parse(ordersJsonStr);
 
   // if the order array is empty simple pass an empty array
   // might not be best but good enough for now
   if (ordersJson.length === 0) {
-    return [];
+    return [[], []];
   }
 
   // Else just return them all in the format thats required
@@ -35,7 +35,7 @@ export async function handleGetOrdersByDate(
     ordersTable.push(toOrdersTable(order));
   });
 
-  return ordersTable;
+  return [ordersTable, ordersJson];
 }
 
 function toOrdersTable(order: Order): OrderTable {
@@ -45,6 +45,6 @@ function toOrdersTable(order: Order): OrderTable {
     name: order.name,
     date: dateSmFormatter.format(new Date(order.date)), // To format the date in a more readable way
     phone: order.phoneNum,
-    description: order.description,
+    status: order.status,
   };
 }

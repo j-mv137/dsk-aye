@@ -9,7 +9,9 @@ export function handleReadPos(
   fileName: string,
   imgW,
   imgH: number,
-  pos: number[]
+  pos: number[],
+  imgMaxW,
+  imgMaxH: number
 ): RectAttr[] {
   try {
     const positionsStr = fs.readFileSync(
@@ -18,17 +20,22 @@ export function handleReadPos(
         encoding: "utf8",
       }
     );
-    const maxW = 926;
-    const maxH = 561;
+
+    // max size of the map.
+    const maxW = imgMaxW;
+    const maxH = imgMaxH;
 
     const posJson = <posObject[]>JSON.parse(positionsStr);
     const rectObjs: RectAttr[] = [];
+
     posJson.forEach((obj) => {
       const width = Math.abs(obj.points[0] - obj.points[2]);
       const height = Math.abs(obj.points[1] - obj.points[3]);
+
       const wRatio = width / maxW;
       const hRatio = height / maxH;
 
+      // Check where the rect. starts when size of map is max.
       const x = Math.min(obj.points[0], obj.points[2]);
       const y = Math.min(obj.points[1], obj.points[3]);
 
@@ -37,10 +44,20 @@ export function handleReadPos(
 
       const RectObj = {
         key: obj.key,
-        w: wRatio * imgW,
-        h: hRatio * imgH,
-        x: imgW * xRatio + pos[0],
-        y: imgH * yRatio + pos[1],
+        w: wRatio * imgW, // adjust the size of each rect with respect to
+        h: hRatio * imgH, // current size of the img. map
+
+        //===============//
+        //               //
+        // imgstart      //
+        //               //
+        //               //
+        // imgend        //
+        //               // have to take into account the white space
+        //===============// when resizing start pos. for eac rect.
+
+        x: imgW * xRatio + pos[0], // same here just need to adjust
+        y: imgH * yRatio + pos[1], // for the change of pos. of the img itself
       };
       rectObjs.push(RectObj);
     });
@@ -52,6 +69,11 @@ export function handleReadPos(
   }
 }
 
-export function handleSearchProds(query: string): Promise<string | void> {
+export function handleGetProdsByRack(key, room: string): Promise<string> {
+  return requestApi("ProductsPositions", "getProdsByRack", [key, room]);
+}
+
+// elit software eng.
+export function handleSearchProds(query: string): Promise<string> {
   return requestApi("Products", "getProdsBySearch", [query]);
 }

@@ -6,7 +6,7 @@ export type OrderTable = {
   name: string;
   date: string;
   phone: string;
-  description: string;
+  status: string;
 };
 
 export const columns: ColumnDef<OrderTable>[] = [

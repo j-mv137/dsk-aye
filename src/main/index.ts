@@ -1,7 +1,11 @@
 import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
 import { join } from "path";
 import { is, optimizer } from "@electron-toolkit/utils";
-import { handleReadPos, handleSearchProds } from "./bridge/coms/roomsComs";
+import {
+  handleGetProdsByRack,
+  handleReadPos,
+  handleSearchProds,
+} from "./bridge/coms/roomsComs";
 import {
   handleAddOrder,
   handleGetOrdersByDate,
@@ -30,9 +34,12 @@ function createWindow(): BrowserWindow {
     mainWindow.show();
   });
 
-  ipcMain.handle("fill-rooms-canvas", (_event, room, imgW, imgH, pos) => {
-    return handleReadPos(room, imgW, imgH, pos);
-  });
+  ipcMain.handle(
+    "fill-rooms-canvas",
+    (_event, room, imgW, imgH, pos, maxW, maxH) => {
+      return handleReadPos(room, imgW, imgH, pos, maxW, maxH);
+    }
+  );
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
@@ -56,7 +63,11 @@ app.whenReady().then(() => {
   createWindow();
 });
 
+// =====================
 // Listeners
+// =====================
+
+// Product methods
 ipcMain.handle(
   "get-prods-by-search",
   (_e: IpcMainInvokeEvent, query: string) => {
@@ -64,6 +75,15 @@ ipcMain.handle(
   }
 );
 
+// Posiotns methods
+ipcMain.handle(
+  "get-prods-by-rack",
+  (_e: IpcMainInvokeEvent, key, room: string) => {
+    return handleGetProdsByRack(key, room);
+  }
+);
+
+// Orders methods
 ipcMain.handle("add-order", (_e: IpcMainInvokeEvent, order: Order) => {
   return handleAddOrder(order);
 });

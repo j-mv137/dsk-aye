@@ -10,9 +10,14 @@ declare global {
         room: string,
         imgW,
         imgH: number,
-        pos: number[]
+        pos: number[],
+        maxW,
+        maxH: number
       ) => Promise<RectAttr[]>;
+      getProdsByRack: (key, room: string) => Promise<string>;
+
       getProdsBySearch: (query: string) => Promise<string>;
+
       addOrder: (order: Order) => Promise<string>;
       getOrdersByDate: (init, final: string) => Promise<string>;
     };
