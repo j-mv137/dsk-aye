@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { MoveLeft, MoveRight } from "lucide-react";
 
 import styles from "./positions.module.css";
-import { ImgAttr, MAP_LAYOUT, Product, Map } from "./positions";
 
 import { ContainerDown } from "../utils/layout1";
 import { Selected } from "../utils/selected/selected";
 import { SearchProds } from "./search/searchProds";
+import { ImgAttr, MAP_LAYOUT, Map, Product } from "./utilsPositions";
+import { usePositionsStore } from "./positionStore";
 
 export function Position(): React.JSX.Element {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -14,6 +15,9 @@ export function Position(): React.JSX.Element {
     image: new window.Image(),
     position: [0, 0],
   });
+
+  const addPosState = usePositionsStore((state) => state.addPosState);
+  const setCurrRoom = usePositionsStore((state) => state.setCurrRoom);
 
   const [MapObj, setMapObj] = useState<Map>(MAP_LAYOUT[0]);
 
@@ -24,7 +28,6 @@ export function Position(): React.JSX.Element {
   useEffect(() => {
     const mapContainerObs = new ResizeObserver(() => {
       if (!mapContainerRef.current) {
-        // assert element not null
         return;
       }
 
@@ -65,7 +68,9 @@ export function Position(): React.JSX.Element {
 
   return (
     <ContainerDown>
-      {selected && <Selected setSelected={setSelected} prods={prodsInRack} />}
+      {selected && !addPosState && (
+        <Selected setSelected={setSelected} prods={prodsInRack} />
+      )}
 
       <SearchProds />
 
@@ -73,12 +78,16 @@ export function Position(): React.JSX.Element {
         {MapObj.left && (
           <button
             className={styles.leftArrow}
-            onClick={() => setMapObj((mapObj) => MAP_LAYOUT[mapObj.from])}
+            onClick={() => {
+              setCurrRoom(MapObj.from);
+              setMapObj((mapObj) => MAP_LAYOUT[mapObj.from]);
+            }}
           >
             <MoveLeft strokeWidth={1} size={20} />
           </button>
         )}
         <MapObj.map
+          key={addPosState.toString()}
           containerRef={mapContainerRef}
           imgAttr={imgAttr}
           setProds={setProdsInRack}
@@ -87,7 +96,10 @@ export function Position(): React.JSX.Element {
         {MapObj.right && (
           <button
             className={styles.rightArrow}
-            onClick={() => setMapObj((mapObj) => MAP_LAYOUT[mapObj.to])}
+            onClick={() => {
+              setCurrRoom(MapObj.to);
+              setMapObj((mapObj) => MAP_LAYOUT[mapObj.to]);
+            }}
           >
             <MoveRight strokeWidth={1} size={20} />
           </button>

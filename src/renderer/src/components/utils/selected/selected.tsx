@@ -1,6 +1,6 @@
 import { CircleX } from "lucide-react";
 import styles from "./selected.module.css";
-import { Product } from "../../positions/positions";
+import { Product } from "@renderer/components/positions/utilsPositions";
 
 interface SelectedProps {
   prods: Product[];

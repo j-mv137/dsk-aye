@@ -73,10 +73,22 @@ export function handleGetProdsByRack(key, room: string): Promise<string> {
   return requestApi("Positions", "getProdsByRack", [key, room]);
 }
 
-export function handleAddPosToProd(prodId, posId: number): Promise<string> {
-  return requestApi("Positions", "addPosToProd", [prodId, posId]);
+export function handleAddPosToProd(
+  prodId: number,
+  positionJson: string
+): Promise<string> {
+  return requestApi("Positions", "addPosToProd", [prodId, positionJson]);
 }
 
+export function handleGetPosForProd(prodId: number): Promise<string> {
+  return requestApi("Positions", "getPosForProd", [prodId]);
+}
+
+export function handleGetPosibleLvls(key, room: string): Promise<string> {
+  return requestApi("Positions", "getPosLevels", [key, room]);
+}
+
+//
 // elit software eng.
 export function handleSearchProds(query: string): Promise<string> {
   return requestApi("Products", "getProdsBySearch", [query]);

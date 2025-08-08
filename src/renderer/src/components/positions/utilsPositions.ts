@@ -12,6 +12,7 @@ export const MAP_LAYOUT: Map[] = [
   {
     map: FrontMap,
     img: frontImg,
+    label: "front",
     right: true,
     left: false,
     to: 1,
@@ -19,6 +20,7 @@ export const MAP_LAYOUT: Map[] = [
   },
   {
     map: BackMap,
+    label: "back",
     img: backImg,
     right: true,
     left: true,
@@ -27,6 +29,7 @@ export const MAP_LAYOUT: Map[] = [
   },
   {
     map: YellowMap,
+    label: "yellow",
     img: yellowImg,
     right: false,
     left: true,
@@ -37,6 +40,7 @@ export const MAP_LAYOUT: Map[] = [
 
 export type Map = {
   map: React.FC<MapProps>;
+  label: "front" | "back" | "yellow";
   img: string;
   right: boolean;
   left: boolean;
@@ -60,7 +64,31 @@ export type Product = {
   minQuantity: number;
 };
 
+export type Position = {
+  room: string;
+  key: string;
+  level: number;
+};
+
+export type ReadyPos = {
+  room: string;
+  key: string;
+  level: number;
+  ready: boolean;
+};
+
+export type PrevToAddPos = {
+  room: string;
+  key: string;
+  posLevels: number[];
+};
+
 // random func.
 export function capitalizeFirst(str: string): string {
   return str[0].toUpperCase() + str.slice(1, str.length).toLowerCase();
 }
+
+export type SelectedLvl = {
+  level: number;
+  rowId: number;
+};

@@ -2,6 +2,9 @@ import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from "electron";
 import { join } from "path";
 import { is, optimizer } from "@electron-toolkit/utils";
 import {
+  handleAddPosToProd,
+  handleGetPosForProd,
+  handleGetPosibleLvls,
   handleGetProdsByRack,
   handleReadPos,
   handleSearchProds,
@@ -75,7 +78,8 @@ ipcMain.handle(
   }
 );
 
-// Posiotns methods
+// ===============
+// Positions methods
 ipcMain.handle(
   "get-prods-by-rack",
   (_e: IpcMainInvokeEvent, key, room: string) => {
@@ -83,6 +87,25 @@ ipcMain.handle(
   }
 );
 
+ipcMain.handle("get-pos-for-prod", (_e: IpcMainInvokeEvent, prodId: number) => {
+  return handleGetPosForProd(prodId);
+});
+
+ipcMain.handle(
+  "get-posible-levels",
+  (_e: IpcMainInvokeEvent, key, room: string) => {
+    return handleGetPosibleLvls(key, room);
+  }
+);
+
+ipcMain.handle(
+  "add-pos-to-prod",
+  (_e: IpcMainInvokeEvent, prodId: number, positionJson: string) => {
+    return handleAddPosToProd(prodId, positionJson);
+  }
+);
+
+// ===============
 // Orders methods
 ipcMain.handle("add-order", (_e: IpcMainInvokeEvent, order: Order) => {
   return handleAddOrder(order);

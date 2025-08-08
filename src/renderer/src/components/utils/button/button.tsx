@@ -1,5 +1,4 @@
 import styles from "./button.module.css";
-
 export function Button({
   className,
   children,

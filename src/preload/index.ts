@@ -24,6 +24,15 @@ contextBridge.exposeInMainWorld("electronAPI", {
   getProdsByRack: (key, room: string) => {
     return ipcRenderer.invoke("get-prods-by-rack", key, room);
   },
+  getPosForProd: (prodId: number) => {
+    return ipcRenderer.invoke("get-pos-for-prod", prodId);
+  },
+  getPosLevels: (key, room: string) => {
+    return ipcRenderer.invoke("get-posible-levels", key, room);
+  },
+  addPosToProd: (prodId: number, positionJson: string) => {
+    return ipcRenderer.invoke("add-pos-to-prod", prodId, positionJson);
+  },
 
   // Products methods
   getProdsBySearch: (query: string) => {

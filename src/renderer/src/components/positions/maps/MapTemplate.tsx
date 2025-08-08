@@ -2,7 +2,8 @@ import { Stage, Layer, Image, Rect } from "react-konva";
 
 import { useEffect, useState } from "react";
 import { MapTemplateProps } from "./map";
-import { Product } from "../positions";
+import { MAP_LAYOUT, Product } from "../utilsPositions";
+import { usePositionsStore } from "../positionStore";
 
 type RectAttr = { key: string; w: number; h: number; x: number; y: number };
 
@@ -12,31 +13,51 @@ export function MapTemplate({
   positionsFile,
   maxW,
   maxH,
-  setProds,
-  setSelected,
+  setProds, //  both are passed down to
+  setSelected, // alter the state of a parent
 }: MapTemplateProps): React.JSX.Element {
   const pos = imgAttr.position;
   const image = imgAttr.image;
+
   const [hovered, setHovered] = useState<string | null>(null);
   const [positions, setPositions] = useState<RectAttr[]>([]);
+
+  const addPosState = usePositionsStore((state) => state.addPosState);
+  const appendPrevPos = usePositionsStore((state) => state.appendPrevPos);
+
+  const currRoom = usePositionsStore((state) => state.currRoom);
 
   function getProducts(key: string): void {
     setSelected(true);
 
-    console.log(key);
-    let room = "";
-    if (positionsFile.toLowerCase().includes("yellow")) {
-      room = "yellow";
-    } else if (positionsFile.toLowerCase().includes("back")) {
-      room = "back";
-    } else if (positionsFile.toLowerCase().includes("front")) {
-      room = "front";
-    } else return;
+    const room = MAP_LAYOUT[currRoom].label;
 
     window.electronAPI.getProdsByRack(key, room).then((res) => {
       const prods = JSON.parse(res) as Product[];
       setProds(prods);
     });
+  }
+
+  function handleAddPos(key: string): void {
+    const room = MAP_LAYOUT[currRoom].label;
+
+    window.electronAPI
+      .getPosLevels(key, room) // get posible levels
+      .then((res) => {
+        const levels = JSON.parse(res) as number[];
+        levels.sort();
+        appendPrevPos({
+          room: MAP_LAYOUT[currRoom].label,
+          key: key,
+          posLevels: levels,
+        });
+        // setPosLevels(levels);
+      })
+      .catch((err) => {
+        // TODO: display toast
+
+        console.log(err);
+      });
   }
 
   useEffect(() => {
@@ -46,7 +67,7 @@ export function MapTemplate({
         setPositions(pos);
       })
       .catch((err) => console.log(err));
-  }, [image, pos, positionsFile, maxH, maxW, imgAttr]);
+  }, [image, pos, positionsFile, maxH, maxW]);
 
   return (
     <Stage
@@ -54,14 +75,7 @@ export function MapTemplate({
       height={containerRef.current?.clientHeight}
     >
       <Layer>
-        <Image
-          onClick={() => {
-            console.log(image.width, image.height);
-          }}
-          x={pos[0]}
-          y={pos[1]}
-          image={image}
-        />
+        <Image x={pos[0]} y={pos[1]} image={image} />
       </Layer>
       <Layer>
         {positions.map((obj) => (
@@ -74,7 +88,12 @@ export function MapTemplate({
             y={obj.y}
             fill={"gray"}
             opacity={obj.key === hovered ? 0.5 : 0}
-            onClick={() => getProducts(obj.key)}
+            onClick={() => {
+              console.log(addPosState);
+              if (!addPosState) return getProducts(obj.key);
+
+              handleAddPos(obj.key);
+            }}
             onMouseOver={() => setHovered(obj.key)}
             onMouseOut={() => setHovered(null)}
           />

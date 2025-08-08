@@ -1,11 +1,13 @@
-@import url('../../../assets/base.css');
+@import url("../../../assets/base.css");
 
 .tableContainer {
   position: relative;
   width: 100%;
-  overflow-x: hidden;
 
-  padding: 2rem;
+  box-shadow: 0 0 5px var(--light-gray);
+
+  border-radius: 0.5rem;
+  overflow-x: hidden;
 }
 
 .table {
@@ -13,14 +15,14 @@
   caption-side: bottom;
   font-size: 0.875rem;
 
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
+  z-index: 1;
 
-  box-shadow: 0 0 5px var(--light-gray);
+  padding: 0.5rem 0.75rem;
 }
 
 .tableHeader tr {
   border-bottom: 1px solid #e5e7eb;
+  font-weight: 500; /* font-medium */
 }
 
 .tableBody tr:last-child {
@@ -46,14 +48,19 @@
   border-bottom: 1px solid #e5e7eb; /* Tailwind default gray-200 */
   transition-property: background-color, border-color, color, fill, stroke;
   transition-duration: 150ms; /* Tailwind default duration */
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* Tailwind default easing */
+  transition-timing-function: cubic-bezier(
+    0.4,
+    0,
+    0.2,
+    1
+  ); /* Tailwind default easing */
 }
 
 .tableRow:hover {
   background-color: rgba(243, 244, 246, 0.5); /* assuming 'muted' ≈ gray-100 */
 }
 
-.tableRow[data-state='selected'] {
+.tableRow[data-state="selected"] {
   background-color: #f3f4f6; /* 'muted', typically gray-100 */
 }
 
@@ -64,17 +71,16 @@
   padding-right: 0.5rem;
   text-align: left;
   vertical-align: middle;
-  font-weight: 500; /* font-medium */
   white-space: nowrap;
 }
 
 /* If the element has a child with role="checkbox", remove right padding */
-.tableHead:has([role='checkbox']) {
+.tableHead:has([role="checkbox"]) {
   padding-right: 0;
 }
 
 /* Move the child checkbox down 2px for vertical alignment */
-.tableHead > [role='checkbox'] {
+.tableHead > [role="checkbox"] {
   transform: translateY(2px);
 }
 
@@ -85,11 +91,11 @@
 }
 
 /* If the element has a child with role="checkbox", remove right padding */
-.tableCell:has([role='checkbox']) {
+.tableCell:has([role="checkbox"]) {
   padding-right: 0;
 }
 
 /* Move the direct child checkbox down slightly */
-.tableCell > [role='checkbox'] {
+.tableCell > [role="checkbox"] {
   transform: translateY(2px);
 }

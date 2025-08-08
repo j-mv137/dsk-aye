@@ -15,6 +15,9 @@ declare global {
         maxH: number
       ) => Promise<RectAttr[]>;
       getProdsByRack: (key, room: string) => Promise<string>;
+      getPosForProd: (prodId: number) => Promise<string>;
+      getPosLevels: (key, room: string) => Promise<string>;
+      addPosToProd: (prodId: number, positionJson: string) => Promise<string>;
 
       getProdsBySearch: (query: string) => Promise<string>;
 

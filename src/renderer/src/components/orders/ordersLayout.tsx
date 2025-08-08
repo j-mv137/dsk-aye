@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
-import { ContainerDown } from "../utils/layout1";
-import { dateFormatter, handleGetOrdersByDate } from "./orders";
+import styles from "./ordersLayout.module.css";
+
 import { Order, OrdersForm } from "./ordersForm/ordersForm";
 import { columns, OrderTable } from "./ordersTable/orders";
 import { OrdersTable } from "./ordersTable/ordersTable";
+
+import { dateFormatter, handleGetOrdersByDate } from "./orders";
+import { ContainerDown } from "../utils/layout1";
+
+import { useEffect, useState } from "react";
 
 async function defaulltOrders(): Promise<[OrderTable[], Order[]]> {
   // TEMPORAL:
@@ -45,11 +49,13 @@ export function OrdersLayout(): React.JSX.Element {
     <ContainerDown>
       <>
         <OrdersForm />
-        <OrdersTable
-          columns={columns}
-          data={ordersTable}
-          completeData={orders}
-        />
+        <div className={styles.tableCont}>
+          <OrdersTable
+            columns={columns}
+            data={ordersTable}
+            completeData={orders}
+          />
+        </div>
       </>
     </ContainerDown>
   );

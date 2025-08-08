@@ -5,7 +5,9 @@ type Methods =
   | "addOrder"
   | "getOrdersByDate"
   | "getProdsByRack"
-  | "addPosToProd";
+  | "addPosToProd"
+  | "getPosForProd"
+  | "getPosLevels";
 type Directions = "Orders" | "Products" | "Positions";
 
 export type Product = {
