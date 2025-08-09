@@ -75,7 +75,7 @@
   padding: 1rem 0.5rem;
 
   box-sizing: border-box;
-  box-shadow: 0 0 1px var(--light-gray);
+  box-shadow: 0 0 3px var(--light-gray);
 }
 
 .prodCont:hover {

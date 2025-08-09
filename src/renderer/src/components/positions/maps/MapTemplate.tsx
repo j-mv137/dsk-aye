@@ -28,11 +28,10 @@ export function MapTemplate({
   const currRoom = usePositionsStore((state) => state.currRoom);
 
   function getProducts(key: string): void {
-    setSelected(true);
-
     const room = MAP_LAYOUT[currRoom].label;
 
     window.electronAPI.getProdsByRack(key, room).then((res) => {
+      setSelected(true);
       const prods = JSON.parse(res) as Product[];
       setProds(prods);
     });

@@ -87,7 +87,6 @@ export function Position(): React.JSX.Element {
           </button>
         )}
         <MapObj.map
-          key={addPosState.toString()}
           containerRef={mapContainerRef}
           imgAttr={imgAttr}
           setProds={setProdsInRack}

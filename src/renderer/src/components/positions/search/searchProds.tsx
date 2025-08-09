@@ -41,19 +41,27 @@ export function SearchProds(): React.JSX.Element {
       });
   }
 
-  function handleGetPosForProduct(prodId: number): void {
+  function handleSelectProd(prodId: number): void {
     window.electronAPI
       .getPosForProd(prodId)
       .then((res) => {
         const positions = JSON.parse(res) as Position[];
 
         setPosForProd(positions);
+        setSelectedProd(prodId);
       })
       .catch((err) => {
         // TODO: trigger toast or however it's called
 
         console.log(err);
       });
+
+    {
+      /* Reset the previous to add positions */
+    }
+    clearPrevPos();
+    clearReadyPos();
+    setAddPosState(false);
   }
 
   function handleAddPosForProd(prodId: number): void {
@@ -101,15 +109,7 @@ export function SearchProds(): React.JSX.Element {
               key={prod.id}
               className={styles.item}
               onClick={() => {
-                setSelectedProd(prod.id);
-                handleGetPosForProduct(prod.id);
-
-                {
-                  /* Reset the previous to add positions */
-                }
-                clearPrevPos();
-                clearReadyPos();
-                setAddPosState(false);
+                handleSelectProd(prod.id);
               }}
             >
               <div className={styles.itemContent}>

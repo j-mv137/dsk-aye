@@ -5,7 +5,6 @@ import {
   TableHeader,
   TableRow,
 } from "@renderer/components/utils/table/table";
-import { ShowPosTable } from "./showPos";
 import {
   ColumnDef,
   flexRender,
@@ -14,6 +13,7 @@ import {
 } from "@tanstack/react-table";
 
 import styles from "./tableShowPos.module.css";
+import { Position } from "../../utilsPositions";
 
 interface TableShowPosProps<TData> {
   data: TData[];
@@ -23,7 +23,7 @@ interface TableShowPosProps<TData> {
 export function TableShowPos({
   data,
   columns,
-}: TableShowPosProps<ShowPosTable>): React.JSX.Element {
+}: TableShowPosProps<Position>): React.JSX.Element {
   const table = useReactTable({
     data,
     columns,
