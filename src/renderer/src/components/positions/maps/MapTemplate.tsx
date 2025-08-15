@@ -14,7 +14,7 @@ export function MapTemplate({
   maxW,
   maxH,
   setProds, //  both are passed down to
-  setSelected, // alter the state of a parent
+  setSelected, // alter the state of the parent (the positions component)
 }: MapTemplateProps): React.JSX.Element {
   const pos = imgAttr.position;
   const image = imgAttr.image;
@@ -50,7 +50,6 @@ export function MapTemplate({
           key: key,
           posLevels: levels,
         });
-        // setPosLevels(levels);
       })
       .catch((err) => {
         // TODO: display toast

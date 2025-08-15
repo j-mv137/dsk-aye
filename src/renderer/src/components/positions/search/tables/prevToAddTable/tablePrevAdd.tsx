@@ -20,11 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from "@renderer/components/utils/table/table";
-import { Position, PrevToAddPos } from "../../utilsPositions";
+import { Position, PrevToAddPos } from "../../../utilsPositions";
 
 import styles from "./tablePrevAdd.module.css";
 import { useEffect, useState } from "react";
-import { usePositionsStore } from "../../positionStore";
+import { usePositionsStore } from "../../../positionStore";
 
 interface TablePrevAddProps {
   data: PrevToAddPos[];

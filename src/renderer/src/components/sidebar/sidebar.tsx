@@ -48,11 +48,20 @@ function NSideBar({ setToggled }: SidebarProps): React.JSX.Element {
           </button>
         </div>
         <div className={styles.linksContainer}>
-          {navStruct.map((linkObj) => (
-            <Link className={styles.link} key={linkObj.tag} to={linkObj.link}>
-              {linkObj.tag}
-              {<linkObj.icon strokeWidth={1} size={20} />}
-            </Link>
+          {navStruct.map((group) => (
+            <div key={group.label} className={styles.navGroup}>
+              <span className={styles.groupLabel}>{group.label}</span>
+              {group.links.map((linkObj) => (
+                <Link
+                  className={styles.link}
+                  key={linkObj.tag}
+                  to={linkObj.link}
+                >
+                  {linkObj.tag}
+                  {<linkObj.icon strokeWidth={1} size={20} />}
+                </Link>
+              ))}
+            </div>
           ))}
         </div>
       </div>

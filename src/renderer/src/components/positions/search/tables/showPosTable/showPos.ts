@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Position } from "../../utilsPositions";
+import { Position } from "../../../utilsPositions";
 
 export const colsSPT: ColumnDef<Position>[] = [
   {

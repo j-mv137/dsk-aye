@@ -2,8 +2,9 @@ import { createHashRouter } from "react-router";
 
 import App from "./App";
 import { Position } from "./components/positions/positions";
-// import { OrdersLayout } from "./components/orders/ordersLayout";
 import { OrdersLayout } from "./components/orders/ordersLayout";
+import { Stats } from "./components/stats/stats";
+import { Sales } from "./components/sales/sales";
 
 export const router = createHashRouter([
   {
@@ -12,6 +13,8 @@ export const router = createHashRouter([
     children: [
       { path: "/", Component: Position },
       { path: "orders", Component: OrdersLayout },
+      { path: "stats", Component: Stats },
+      { path: "/sales", Component: Sales },
     ],
   },
 ]);

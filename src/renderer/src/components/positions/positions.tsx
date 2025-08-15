@@ -4,7 +4,7 @@ import { MoveLeft, MoveRight } from "lucide-react";
 import styles from "./positions.module.css";
 
 import { ContainerDown } from "../utils/layout1";
-import { Selected } from "../utils/selected/selected";
+import { Selected } from "./selected/selected";
 import { SearchProds } from "./search/searchProds";
 import { ImgAttr, MAP_LAYOUT, Map, Product } from "./utilsPositions";
 import { usePositionsStore } from "./positionStore";
@@ -21,6 +21,7 @@ export function Position(): React.JSX.Element {
 
   const [MapObj, setMapObj] = useState<Map>(MAP_LAYOUT[0]);
 
+  // setProdsInRack and setSelected are passed to the mapTemplate component
   const [selected, setSelected] = useState<boolean>(false);
   const [prodsInRack, setProdsInRack] = useState<Product[]>([]);
 

@@ -96,12 +96,13 @@
   flex: 1;
 
   align-items: center;
+  justify-content: space-between;
 
   gap: 1.5rem;
 
   width: 100%;
 
-  padding: 1rem 2rem;
+  padding: 1rem 4.5rem 1rem 2rem;
 
   box-sizing: border-box;
 
@@ -121,6 +122,29 @@
   background-color: var(--light-gray-2);
 
   transition: background-color 0.15s ease-in;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  gap: 0.5rem;
+}
+
+.groupLabel {
+  display: flex;
+
+  width: 100%;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0.5rem 1rem;
+
+  font-size: small;
+  font-weight: lighter;
 }
 
 /* ---------------------------------------------- */

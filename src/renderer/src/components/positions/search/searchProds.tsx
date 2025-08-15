@@ -7,11 +7,11 @@ import {
   FileQuestionMark,
   SearchIcon,
 } from "lucide-react";
-import { TableShowPos } from "./showPosTable/tableShowPos";
-import { colsSPT } from "./showPosTable/showPos";
+import { TableShowPos } from "./tables/showPosTable/tableShowPos";
+import { colsSPT } from "./tables/showPosTable/showPos";
 import { capitalizeFirst, Position, Product } from "../utilsPositions";
 import { usePositionsStore } from "../positionStore";
-import { TablePrevAdd } from "./prevToAddTable/tablePrevAdd";
+import { TablePrevAdd } from "./tables/prevToAddTable/tablePrevAdd";
 
 export function SearchProds(): React.JSX.Element {
   const searchInputRef = useRef<HTMLInputElement | null>(null);

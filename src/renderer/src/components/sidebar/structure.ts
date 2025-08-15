@@ -1,7 +1,19 @@
-import { LucideProps, NotepadTextDashed, PackageSearch } from "lucide-react";
+import {
+  ChartLine,
+  FileMinus,
+  LucideProps,
+  NotepadTextDashed,
+  PackageSearch,
+  ShoppingCart,
+} from "lucide-react";
 import { ForwardRefExoticComponent } from "react";
 
-type navLink = {
+type NavGroup = {
+  label: string;
+  links: NavLink[];
+};
+
+type NavLink = {
   tag: string;
   link: string;
   icon: ForwardRefExoticComponent<
@@ -9,15 +21,32 @@ type navLink = {
   >;
 };
 
-export const navStruct: navLink[] = [
+export const navStruct: NavGroup[] = [
   {
-    tag: "Posiciones",
-    link: "/",
-    icon: PackageSearch,
+    label: "Ventas",
+    links: [
+      { tag: "Ventas", link: " /sales", icon: ShoppingCart },
+      { tag: "Cotizaciones", link: "/quotations", icon: FileMinus },
+    ],
   },
   {
-    tag: "Órdenes",
-    link: "/orders",
-    icon: NotepadTextDashed,
+    label: "Extra",
+    links: [
+      {
+        tag: "Posiciones",
+        link: "/",
+        icon: PackageSearch,
+      },
+      {
+        tag: "Órdenes",
+        link: "/orders",
+        icon: NotepadTextDashed,
+      },
+      {
+        tag: "Estadísticas",
+        link: "/stats",
+        icon: ChartLine,
+      },
+    ],
   },
 ];

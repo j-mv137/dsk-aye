@@ -13,7 +13,7 @@ import {
 } from "@tanstack/react-table";
 
 import styles from "./tableShowPos.module.css";
-import { Position } from "../../utilsPositions";
+import { Position } from "../../../utilsPositions";
 
 interface TableShowPosProps<TData> {
   data: TData[];
