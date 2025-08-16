@@ -11,6 +11,7 @@ import { usePositionsStore } from "./positionStore";
 
 export function Position(): React.JSX.Element {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
+
   const [imgAttr, setImgAttr] = useState<ImgAttr>({
     image: new window.Image(),
     position: [0, 0],

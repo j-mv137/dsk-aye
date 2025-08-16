@@ -41,7 +41,7 @@ export function SelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDownIcon className="size-4 opacity-50" />
+        <ChevronDownIcon size={20} strokeWidth={1.5} />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
@@ -95,12 +95,14 @@ export function SelectItem({
       className={`${styles.selectItem} ${className}`}
       {...props}
     >
-      <span className="absolute right-2 flex size-3.5 items-center justify-center">
+      <SelectPrimitive.ItemText className={styles.itemText}>
+        {children}
+      </SelectPrimitive.ItemText>
+      <span>
         <SelectPrimitive.ItemIndicator>
-          <CheckIcon className="size-4" />
+          <CheckIcon />
         </SelectPrimitive.ItemIndicator>
       </span>
-      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
   );
 }

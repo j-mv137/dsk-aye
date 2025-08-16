@@ -20,10 +20,9 @@ import {
   TableHeader,
   TableRow,
 } from "@renderer/components/utils/table/table";
-import { Position, PrevToAddPos } from "../../../utilsPositions";
+import { MetaType, PrevToAddPos } from "../../../utilsPositions";
 
 import styles from "./tablePrevAdd.module.css";
-import { useEffect, useState } from "react";
 import { usePositionsStore } from "../../../positionStore";
 
 interface TablePrevAddProps {
@@ -31,16 +30,8 @@ interface TablePrevAddProps {
 }
 
 export function TablePrevAdd({ data }: TablePrevAddProps): React.JSX.Element {
-  console.log("rerendering");
-  const [selectedPos, setSelectedPos] = useState<Record<string, Position>>({});
-  const appendReadyPos = usePositionsStore((state) => state.appendReadyPos);
-
-  function handleUpdateReadyPos(room, key: string, level: number): void {
-    setSelectedPos((prev) => ({
-      ...prev,
-      [`${room}-${key}`]: { room, key, level },
-    }));
-  }
+  const selectedPos = usePositionsStore((state) => state.selectedPos);
+  const setSelectedPos = usePositionsStore((state) => state.setSelectedPos);
 
   const columns: ColumnDef<PrevToAddPos>[] = [
     {
@@ -54,7 +45,12 @@ export function TablePrevAdd({ data }: TablePrevAddProps): React.JSX.Element {
     {
       accessorKey: "level",
       header: "Nivel",
-      cell: ({ row }) => {
+      meta: {
+        handleUpdateReadyPos: (room, key: string, level: number): void => {
+          setSelectedPos(room, key, level);
+        },
+      },
+      cell: ({ row, column }) => {
         // prev to add pos for this row
         const showPosible = row.original;
 
@@ -63,14 +59,18 @@ export function TablePrevAdd({ data }: TablePrevAddProps): React.JSX.Element {
           showPosible.posLevels[0] === 0
         ) {
           // Only possible level is 0
-          handleUpdateReadyPos(showPosible.room, showPosible.key, 0);
+          (column.columnDef.meta as MetaType).handleUpdateReadyPos(
+            showPosible.room,
+            showPosible.key,
+            0
+          );
           return <div>No hay niveles disponibles</div>;
         }
 
         return (
           <Select
             onValueChange={(v) => {
-              handleUpdateReadyPos(
+              (column.columnDef.meta as MetaType).handleUpdateReadyPos(
                 showPosible.room,
                 showPosible.key,
                 Number(v)
@@ -78,7 +78,7 @@ export function TablePrevAdd({ data }: TablePrevAddProps): React.JSX.Element {
             }}
             value={selectedPos[
               `${showPosible.room}-${showPosible.key}`
-            ]?.level?.toString()}
+            ]?.level.toString()}
           >
             <SelectTrigger>
               <SelectValue placeholder="Selecciona un nivel" />
@@ -98,15 +98,6 @@ export function TablePrevAdd({ data }: TablePrevAddProps): React.JSX.Element {
       },
     },
   ];
-
-  useEffect(() => {
-    console.log(selectedPos);
-    if (Object.keys(selectedPos).length > 0) {
-      Object.values(selectedPos).forEach((pos) => {
-        appendReadyPos(pos);
-      });
-    }
-  }, [appendReadyPos, selectedPos]);
 
   const table = useReactTable({
     columns,

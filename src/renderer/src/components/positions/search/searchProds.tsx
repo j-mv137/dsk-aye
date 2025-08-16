@@ -9,12 +9,18 @@ import {
 } from "lucide-react";
 import { TableShowPos } from "./tables/showPosTable/tableShowPos";
 import { colsSPT } from "./tables/showPosTable/showPos";
-import { capitalizeFirst, Position, Product } from "../utilsPositions";
+import {
+  capitalizeFirst,
+  parsePosToDisplay,
+  Position,
+  Product,
+} from "../utilsPositions";
 import { usePositionsStore } from "../positionStore";
 import { TablePrevAdd } from "./tables/prevToAddTable/tablePrevAdd";
 
 export function SearchProds(): React.JSX.Element {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const searchBtnRef = useRef<HTMLButtonElement | null>(null);
 
   const [text, setText] = useState("");
   const [prods, setProds] = useState<Product[]>([]);
@@ -26,9 +32,9 @@ export function SearchProds(): React.JSX.Element {
   const setAddPosState = usePositionsStore((state) => state.setAddPosState);
   const prevToAddPos = usePositionsStore((state) => state.prevToAddPos);
   const clearPrevPos = usePositionsStore((state) => state.clearPrevPos);
-  const clearReadyPos = usePositionsStore((state) => state.clearReadyPos);
-  const readyPos = usePositionsStore((state) => state.readyPos);
-  const popReadyPos = usePositionsStore((state) => state.popReadyPos);
+  const clearSelectedPos = usePositionsStore((state) => state.clearSelectedPos);
+  const selectedPos = usePositionsStore((state) => state.selectedPos);
+  const popSelectedPos = usePositionsStore((state) => state.popSelectedPos);
   const popPrevPos = usePositionsStore((state) => state.popPrevPos);
 
   function handleSearch(): void {
@@ -46,6 +52,11 @@ export function SearchProds(): React.JSX.Element {
       .getPosForProd(prodId)
       .then((res) => {
         const positions = JSON.parse(res) as Position[];
+        const displayPos: Position[] = [];
+
+        positions.forEach((pos) => {
+          displayPos.concat(parsePosToDisplay(pos));
+        });
 
         setPosForProd(positions);
         setSelectedProd(prodId);
@@ -60,16 +71,21 @@ export function SearchProds(): React.JSX.Element {
       /* Reset the previous to add positions */
     }
     clearPrevPos();
-    clearReadyPos();
+    clearSelectedPos();
     setAddPosState(false);
   }
 
   function handleAddPosForProd(prodId: number): void {
-    readyPos.forEach((pos) => {
+    const parsedSelected: Position[] = [];
+    Object.values(selectedPos).forEach((pos) => {
       window.electronAPI.addPosToProd(prodId, JSON.stringify(pos));
+
+      parsedSelected.push(parsePosToDisplay(pos));
     });
 
-    clearReadyPos();
+    setPosForProd((currPos) => currPos.concat(parsedSelected));
+
+    clearSelectedPos();
     clearPrevPos();
   }
 
@@ -87,12 +103,23 @@ export function SearchProds(): React.JSX.Element {
   }, [text]);
 
   return (
-    <div className={styles.searchContainer}>
+    <div
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          searchBtnRef.current?.click();
+        }
+      }}
+      className={styles.searchContainer}
+    >
       <div className={styles.searchBar}>
         {input}
-        <div className={styles.searchIconContainer} onClick={handleSearch}>
+        <button
+          ref={searchBtnRef}
+          className={styles.searchIconContainer}
+          onClick={handleSearch}
+        >
           <SearchIcon width={17} opacity={0.7} />
-        </div>
+        </button>
       </div>
       <div className={styles.itemsContainer}>
         {(!prods || prods.length === 0) && (
@@ -171,7 +198,7 @@ export function SearchProds(): React.JSX.Element {
                         onClick={() => {
                           if (prevToAddPos.length === 0) setAddPosState(false);
                           popPrevPos();
-                          popReadyPos();
+                          popSelectedPos();
                         }}
                       >
                         <span>Cancelar</span>

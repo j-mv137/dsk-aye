@@ -16,10 +16,10 @@ interface PositionsStore {
   posLevels: number[];
   setPosLevels: (levels: number[]) => void;
 
-  readyPos: Position[];
-  appendReadyPos: (pos: Position) => void;
-  popReadyPos: () => void;
-  clearReadyPos: () => void;
+  selectedPos: Record<string, Position>;
+  setSelectedPos: (room, key: string, level: number) => void;
+  popSelectedPos: () => void;
+  clearSelectedPos: () => void;
 }
 
 export const usePositionsStore = create<PositionsStore>((set) => ({
@@ -39,10 +39,21 @@ export const usePositionsStore = create<PositionsStore>((set) => ({
   posLevels: [],
   setPosLevels: (levels) => set(() => ({ posLevels: levels })),
 
-  readyPos: [],
-  appendReadyPos: (pos) =>
-    set((state) => ({ readyPos: state.readyPos.concat(pos) })),
-  popReadyPos: () =>
-    set((state) => ({ readyPos: state.readyPos.slice(0, -1) })),
-  clearReadyPos: () => set(() => ({ readyPos: [] })),
+  selectedPos: {},
+  setSelectedPos: (room, key: string, level: number) =>
+    set((state) => {
+      state.selectedPos[`${room}-${key}`] = { room, key, level };
+
+      return state.selectedPos;
+    }),
+  popSelectedPos: () => {
+    set((state) => {
+      const last = Object.keys(state.selectedPos)[-1];
+
+      delete state.selectedPos[last];
+
+      return state.selectedPos;
+    });
+  },
+  clearSelectedPos: () => set(() => ({ selectedPos: {} })),
 }));

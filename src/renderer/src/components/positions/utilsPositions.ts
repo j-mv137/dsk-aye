@@ -88,7 +88,25 @@ export function capitalizeFirst(str: string): string {
   return str[0].toUpperCase() + str.slice(1, str.length).toLowerCase();
 }
 
+const ROOM_SPANISH = {
+  front: "Frente",
+  back: "Bodega",
+  yellow: "C. Amarillo",
+};
+
+export function parsePosToDisplay(pos: Position): Position {
+  const sRoom = ROOM_SPANISH[pos.room];
+
+  pos.room = sRoom;
+
+  return pos;
+}
+
 export type SelectedLvl = {
   level: number;
   rowId: number;
 };
+
+export interface MetaType {
+  handleUpdateReadyPos: (room, key: string, level: number) => void;
+}

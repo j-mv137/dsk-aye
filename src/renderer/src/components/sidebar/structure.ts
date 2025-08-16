@@ -25,7 +25,7 @@ export const navStruct: NavGroup[] = [
   {
     label: "Ventas",
     links: [
-      { tag: "Ventas", link: " /sales", icon: ShoppingCart },
+      { tag: "Ventas", link: "/sales", icon: ShoppingCart },
       { tag: "Cotizaciones", link: "/quotations", icon: FileMinus },
     ],
   },

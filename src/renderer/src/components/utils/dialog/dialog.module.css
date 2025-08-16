@@ -1,0 +1,144 @@
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialogOverlay[data-state="open"] {
+  animation: fadeIn 150ms ease-out;
+}
+
+.dialogOverlay[data-state="closed"] {
+  animation: fadeOut 150ms ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.dialogContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 50;
+  display: grid;
+  width: 40%;
+  transform: translate(-50%, -50%);
+  gap: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e5e5;
+  background-color: var(--background);
+  padding: 1.5rem;
+  transition-duration: 200ms;
+}
+
+.dialogContent[data-state="open"] {
+  animation: fadeInZoom 200ms ease-out;
+}
+
+.dialogContent[data-state="closed"] {
+  animation: fadeOutZoom 200ms ease-in;
+}
+
+@keyframes fadeInZoom {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes fadeOutZoom {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}
+
+.dialogClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border-radius: 0.125rem;
+  opacity: 0.7;
+  transition: opacity 200ms;
+  outline: none;
+  background-color: var(--background);
+  border: 0;
+  color: #000000;
+}
+
+.dialogClose:hover {
+  opacity: 1;
+}
+
+.dialogClose:focus {
+  box-shadow:
+    0 0 0 2px #2563eb,
+    0 0 0 4px #ffffff;
+}
+
+.dialogClose:disabled {
+  pointer-events: none;
+}
+
+.dialogClose svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.dialogClose svg:not([class*="size-"]) {
+  width: 1rem;
+  height: 1rem;
+}
+
+.dialogClose[data-state="open"] {
+  background-color: #f4f4f5;
+  color: #6b7280;
+}
+
+.dialogHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.dialogFooter {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+}
+
+.dialogTitle {
+  font-size: 1.125rem;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.dialogDescription {
+  color: #6b7280;
+  font-size: 0.875rem;
+}

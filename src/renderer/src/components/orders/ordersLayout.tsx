@@ -48,7 +48,7 @@ export function OrdersLayout(): React.JSX.Element {
   return (
     <ContainerDown>
       <>
-        <OrdersForm />
+        <OrdersForm setOrdersTable={setOrdersTable} setOrders={setOrders} />
         <div className={styles.tableCont}>
           <OrdersTable
             columns={columns}

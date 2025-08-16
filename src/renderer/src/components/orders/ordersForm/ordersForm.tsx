@@ -7,7 +7,8 @@ import { useState } from "react";
 
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import { dateFormatter } from "../orders";
+import { dateFormatter, toOrdersTable } from "../orders";
+import { OrderTable } from "../ordersTable/orders";
 
 export type Order = {
   id: number;
@@ -20,8 +21,15 @@ export type Order = {
   address: string;
   phoneNum: string;
 };
+interface OrdersFormProps {
+  setOrdersTable: React.Dispatch<React.SetStateAction<OrderTable[]>>;
+  setOrders: React.Dispatch<React.SetStateAction<Order[]>>;
+}
 
-export function OrdersForm(): React.JSX.Element {
+export function OrdersForm({
+  setOrdersTable,
+  setOrders,
+}: OrdersFormProps): React.JSX.Element {
   const { handleSubmit, register, watch, setValue } = useForm<Order>({
     defaultValues: {
       date: dateFormatter.format(new Date()),
@@ -43,14 +51,10 @@ export function OrdersForm(): React.JSX.Element {
   const dateWatch = watch("date");
 
   const onSubmit: SubmitHandler<Order> = (data: Order): void => {
-    window.electronAPI.addOrder(data).then((v) => {
-      // Check if stdout is number and if its value if 0
-      // this to know if the process succed
-      // TODO: add popout (bread or some like that)
-      if (!isNaN(Number(v)) && Number(v) === 0) {
-        return;
-      }
-    });
+    window.electronAPI.addOrder(data);
+
+    setOrders((orders) => orders.concat(data));
+    setOrdersTable((ordersTable) => ordersTable.concat(toOrdersTable(data)));
   };
 
   return (

@@ -38,7 +38,7 @@ export async function handleGetOrdersByDate(
   return [ordersTable, ordersJson];
 }
 
-function toOrdersTable(order: Order): OrderTable {
+export function toOrdersTable(order: Order): OrderTable {
   return {
     id: order.id,
     type: order.type,
