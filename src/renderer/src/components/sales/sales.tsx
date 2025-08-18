@@ -1,35 +1,19 @@
-import { useRef, useState } from "react";
-import { Input } from "../utils/input/input";
+import { useRef } from "react";
 import { ContainerDown } from "../utils/layout1";
 import styles from "./sales.module.css";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../utils/select/select";
-import { SALE_TYPE } from "./salesUtils";
-import { Dialog, DialogContent, DialogTrigger } from "../utils/dialog/dialog";
+import { useSalesStore } from "./salesStore";
+import { SalesHeader } from "./salesSide/salesHeader";
+import { ClientDialog } from "./salesSide/utils/clientDialog";
+import { TypeSelect } from "./salesSide/utils/typeSelect";
 import { Button } from "../utils/button/button";
-import { SearchIcon } from "lucide-react";
-import { Product } from "../positions/utilsPositions";
+import { SelectContent, SelectGroup, SelectItem } from "../utils/select/select";
+import { SALE_TYPE, SALESMEN } from "./salesUtils";
 export function Sales(): React.JSX.Element {
   const searchBtnRef = useRef<null | HTMLButtonElement>(null);
-  const searchInputRef = useRef<null | HTMLInputElement>(null);
 
-  const [inputProdSelected, setInputProdSelected] = useState<boolean>(false);
-  const [lastLength, setLastLegth] = useState<number>(0);
-  const [products, setProducts] = useState<Product[]>([]);
-
-  function handleGetProdsBySearch(query: string): void {
-    window.electronAPI.getProdsBySearch(query).then((data) => {
-      const searchedProds = JSON.parse(data) as Product[];
-
-      setProducts(searchedProds);
-    });
-  }
+  const setInputProdSelected = useSalesStore(
+    (state) => state.setInputProdSelected
+  );
 
   return (
     <ContainerDown
@@ -39,78 +23,7 @@ export function Sales(): React.JSX.Element {
     >
       <div className={styles.sideCont}>
         {/* HEADER */}
-        <div className={styles.sideHeaderCont}>
-          <div className={styles.imgCont}></div>
-          <div className={styles.prodInfCont}>
-            <div className={styles.prodTxt}>
-              <span className={styles.mainCode}>MAIN CODE</span>
-              <span>SECOND CODE</span>
-            </div>
-            <span>$25.00</span>
-            <div className={styles.searchProdCont}>
-              {inputProdSelected && (
-                <div onClick={() => {}} className={styles.smSearchCont}>
-                  {products.length > 1 ? (
-                    products.map((prod) => (
-                      <div key={prod.id} className={styles.searchedProdCont}>
-                        <div className={styles.prodTitle}>
-                          <span className={styles.searchhMainCode}>
-                            {prod.mainCode}
-                          </span>
-                          <span>{prod.secondCode}</span>
-                        </div>
-                        {prod.description}
-                      </div>
-                    ))
-                  ) : (
-                    <div className={styles.prodsNotFound}>
-                      <span>No se encontraron artículos</span>
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className={styles.inputCont}>
-                <Input
-                  ref={searchInputRef}
-                  placeholder="Busca un producto"
-                  onChange={(e) => {
-                    const currLength = e.target.value.split(" ").length;
-                    if (
-                      currLength > lastLength &&
-                      e.target.value.includes(" ")
-                    ) {
-                      handleGetProdsBySearch(e.target.value);
-
-                      setInputProdSelected(true);
-                      setLastLegth(currLength);
-                    } else if (currLength > 1) {
-                      setLastLegth(currLength);
-                      setInputProdSelected(true);
-                    } else {
-                      setLastLegth(0);
-                      setInputProdSelected(false);
-                    }
-                  }}
-                />
-                <button
-                  ref={searchBtnRef}
-                  className={styles.searchProdBtn}
-                  onClick={() => {
-                    if (!searchInputRef.current) return;
-
-                    if (searchInputRef.current.value === "") return;
-
-                    handleGetProdsBySearch(searchInputRef.current.value);
-
-                    setInputProdSelected(true);
-                  }}
-                >
-                  <SearchIcon width={17} opacity={0.7} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <SalesHeader searchBtnRef={searchBtnRef} />
 
         {/* CLIENT & TYPE */}
         <div
@@ -120,23 +33,10 @@ export function Sales(): React.JSX.Element {
           }}
         >
           <div className={styles.clientCont}>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className={styles.clientBtn}>Público en General</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <div className={styles.searchClientsCont}>
-                  <Input className={styles.searchClientsInput} />
-                  <div className={styles.foundClients}></div>
-                </div>
-              </DialogContent>
-            </Dialog>
+            <ClientDialog />
           </div>
           <div className={styles.clientCont}>
-            <Select>
-              <SelectTrigger className={styles.selectType}>
-                <SelectValue placeholder="Tipo de nota" />
-              </SelectTrigger>
+            <TypeSelect placeholder="Tipo de Nota">
               <SelectContent>
                 <SelectGroup>
                   {SALE_TYPE.map((saleType) => (
@@ -146,17 +46,36 @@ export function Sales(): React.JSX.Element {
                   ))}
                 </SelectGroup>
               </SelectContent>
-            </Select>
+            </TypeSelect>
           </div>
         </div>
 
         {/* OPTIONS */}
-        <div className={styles.optionsCont}>
+        <div className={styles.optionsGrid}>
+          <div className={styles.option}>Importar Cotización</div>
+          <div className={styles.option}>Aplicar Nota de Crédito</div>
+          <div className={styles.option}>Artículo Rápido</div>
+          <div className={styles.option}>Abrir Caja</div>
           <div className={styles.option}></div>
-          <div className={styles.option}></div>
-          <div className={styles.option}></div>
-          <div className={styles.option}></div>
-          <div className={styles.option}></div>
+        </div>
+
+        <div className={styles.lastRow}>
+          <div className={styles.lastRowCont}>
+            <TypeSelect placeholder="Vendedor">
+              <SelectContent>
+                <SelectGroup>
+                  {SALESMEN.map((salesMan) => (
+                    <SelectItem key={salesMan.name} value={salesMan.name}>
+                      {salesMan.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </TypeSelect>
+          </div>
+          <div className={styles.lastBtnCont}>
+            <Button className={styles.finishBtn}>Finalizar</Button>
+          </div>
         </div>
       </div>
 

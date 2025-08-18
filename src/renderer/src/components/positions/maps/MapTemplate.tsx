@@ -87,7 +87,6 @@ export function MapTemplate({
             fill={"gray"}
             opacity={obj.key === hovered ? 0.5 : 0}
             onClick={() => {
-              console.log(addPosState);
               if (!addPosState) return getProducts(obj.key);
 
               handleAddPos(obj.key);

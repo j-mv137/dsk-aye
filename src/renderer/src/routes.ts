@@ -5,6 +5,7 @@ import { Position } from "./components/positions/positions";
 import { OrdersLayout } from "./components/orders/ordersLayout";
 import { Stats } from "./components/stats/stats";
 import { Sales } from "./components/sales/sales";
+import { Quotations } from "./components/quotations/quotations";
 
 export const router = createHashRouter([
   {
@@ -15,6 +16,7 @@ export const router = createHashRouter([
       { path: "orders", Component: OrdersLayout },
       { path: "stats", Component: Stats },
       { path: "/sales", Component: Sales },
+      { path: "/quotations", Component: Quotations },
     ],
   },
 ]);
