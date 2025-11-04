@@ -1,0 +1,64 @@
+@import url("../../assets/base.css");
+
+.mapContainer {
+  position: relative;
+
+  width: 60%;
+  padding: 0 0;
+}
+
+.rightArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: white;
+
+  box-sizing: border-box;
+  box-shadow: 0 0 3px var(--light-gray);
+
+  padding: 1rem 2rem;
+
+  border: 1px solid var(--light-gray);
+  border-radius: 1rem;
+
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+
+  cursor: pointer;
+}
+
+.rightArrow:hover {
+  background-color: var(--light-gray-2);
+  transition: background-color 0.1s ease-in;
+}
+
+.leftArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: white;
+
+  box-sizing: border-box;
+  box-shadow: 0 0 3px var(--light-gray);
+
+  padding: 1rem 2rem;
+
+  z-index: 1;
+
+  border: 1px solid var(--light-gray);
+  border-radius: 1rem;
+
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+
+  cursor: pointer;
+}
+
+.leftArrow:hover {
+  background-color: var(--light-gray-2);
+  transition: background-color 0.1s ease-in;
+}

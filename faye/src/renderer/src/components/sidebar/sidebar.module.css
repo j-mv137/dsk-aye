@@ -1,0 +1,173 @@
+@import url("../../assets/base.css");
+
+.nav {
+  display: flex;
+  flex: 1;
+
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  position: absolute;
+  left: 0;
+
+  width: 15rem;
+  height: 100%;
+
+  background-color: white;
+  z-index: 3;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 0 3px var(--light-gray);
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  padding: 0.75rem 0;
+  gap: 1rem;
+
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.toggleButton {
+  display: flex;
+
+  padding: 0.25rem;
+
+  box-sizing: border-box;
+
+  border: 0;
+  border-radius: 0.5rem;
+
+  background-color: white;
+}
+
+.toggleButton:hover {
+  background-color: var(--light-gray-2);
+
+  transition: background-color 0.15s ease-in;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem 2rem;
+
+  text-align: center;
+  font-size: medium;
+
+  font-weight: bold;
+}
+
+.logoSm {
+  text-align: center;
+
+  font-size: small;
+  font-weight: lighter;
+}
+
+.linksContainer {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  gap: 1rem;
+
+  box-sizing: border-box;
+
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.link {
+  display: flex;
+  flex: 1;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1.5rem;
+
+  width: 100%;
+
+  padding: 1rem 4.5rem 1rem 2rem;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 0 3px var(--light-gray);
+
+  text-align: left;
+  text-decoration: underline;
+
+  color: black;
+
+  font-weight: lighter;
+
+  cursor: pointer;
+}
+
+.link:hover {
+  background-color: var(--light-gray-2);
+
+  transition: background-color 0.15s ease-in;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  gap: 0.5rem;
+}
+
+.groupLabel {
+  display: flex;
+
+  width: 100%;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0.5rem 1rem;
+
+  font-size: small;
+  font-weight: lighter;
+}
+
+/* ---------------------------------------------- */
+/* TOGGLED SIDEBAR */
+
+.toggledNav {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+
+  width: 3rem;
+  height: 2rem;
+
+  display: flex;
+  flex: 1;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: white;
+  z-index: 3;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 0 3px var(--light-gray);
+}

@@ -1,0 +1,153 @@
+@import url("../../../assets/base.css");
+
+/* Wraps the whole form block */
+.mainContainer {
+  display: flex;
+
+  box-sizing: border-box;
+  box-shadow: 0 0 3px var(--light-gray);
+
+  width: 30%;
+  height: 100%;
+
+  padding: 3rem 2rem;
+}
+
+.formCont {
+  display: flex;
+
+  gap: 2rem;
+
+  width: 100%;
+
+  flex-direction: column;
+}
+
+.formRow {
+  display: flex;
+
+  width: 100%;
+
+  align-items: flex-end;
+  justify-content: center;
+
+  gap: 1.5rem;
+}
+
+.inputLabelCont {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  gap: 0.5rem;
+}
+
+label {
+  font-size: small;
+  letter-spacing: 0.5ch;
+  font-weight: lighter;
+
+  cursor: inherit;
+}
+
+/* Radio related styles */
+.radioInputLabelCont {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 0.5rem;
+}
+
+.radioText {
+  letter-spacing: 0.2ch;
+}
+/* Radio related styles */
+
+/* Removes the up and down arrows of an intput of type number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Styles for the radio inputs */
+input[type="radio"] {
+  margin: 0;
+  width: 1rem;
+  height: 1rem;
+  outline: none;
+
+  accent-color: black;
+}
+
+.textarea {
+  padding: 0.5rem 0.75rem;
+
+  border: 1px solid var(--light-gray);
+  border-radius: 0.5rem;
+
+  font-family: "DM Sans";
+  font-weight: lighter;
+
+  outline: none;
+
+  width: 90%;
+
+  resize: none;
+  height: 5rem;
+  max-height: 5rem;
+}
+
+.calendarNBtnCont {
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+
+  height: 100%;
+  width: 90%;
+
+  align-items: flex-start;
+  justify-content: flex-end;
+
+  position: relative;
+}
+
+.calendarCont {
+  display: flex;
+
+  position: absolute;
+  top: 4.5rem;
+
+  width: fit-content;
+
+  padding: 1rem;
+
+  background-color: white;
+
+  box-shadow: 0 0 3px var(--light-gray);
+  border-radius: 1rem;
+}
+
+/* General classes */
+.smInput {
+  width: 70%;
+}
+
+.lgInput {
+  width: 90%;
+}
+
+.lgBtn {
+  width: 50%;
+}
+
+.smBtn {
+  width: 30%;
+}
+/* General classes */
