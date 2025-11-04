@@ -10,17 +10,17 @@ Para ver los repos originales:
 
 Algunas imágenes de la aplicación.
 
-<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <div>
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0.125rem;">
+    <div style="height: 80%;">
         <img src="imágenes/búsqueda, artículos.png">
     </div>
-    <div>
+    <div style="height: 80%;">
         <img src="imágenes/Mapa 2.png">
     </div>
-    <div>
+    <div style="height: 80%;">
         <img src="imágenes/notas taller.png">
     </div>
-    <div>
+    <div style="height: 80%;">
         <img src="imágenes/búsqueda, artículos.png">
     </div>
 </div>
